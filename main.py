@@ -517,5 +517,5 @@ def main():
     application.add_handler(conversation_handler)
     application.run_polling()
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
+    main()
