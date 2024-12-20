@@ -1,5 +1,7 @@
 import random
 import string
+from myapp import app
+from flask import Flask
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 from telegram import Update
