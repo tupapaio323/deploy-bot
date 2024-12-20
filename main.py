@@ -1,7 +1,5 @@
 import random
 import string
-from app.myapp import app
-from flask import Flask
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 from telegram import Update
@@ -520,5 +518,4 @@ def main():
     application.run_polling()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
