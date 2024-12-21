@@ -49,12 +49,6 @@ jaraco.context==6.0.1
 Jinja2==3.1.4
 jiter==0.7.0
 joblib==1.4.2
-kids.cache==0.0.7
-Kivy==2.3.0
-kivy-deps.angle==0.4.0
-kivy-deps.glew==0.3.1
-kivy-deps.sdl2==0.7.0
-Kivy-Garden==0.1.5
 kiwisolver==1.4.7
 libsass==0.23.0
 lxml==5.3.0
