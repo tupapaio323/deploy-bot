@@ -18,14 +18,13 @@ NEQUI_NUMBER = "123456789"
 FONT_SIZE = 39
 MAX_WIDTH = 920  # Ancho máximo permitido para el texto
 
-# Configuración del locale para formato español
-locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 
-# Funciones de formateo
 def formatear_monto(monto: str) -> str:
     monto_int = int(monto)
-    monto_formateado = locale.format_string("%d", monto_int, grouping=True)
+    # Formatear con comas manualmente
+    monto_formateado = f"{monto_int:,}"
     return f"{monto_formateado},00"
+
 
 def obtener_fecha_hora():
     ahora = datetime.now()
@@ -63,7 +62,6 @@ def ajustar_texto_a_ancho(texto, font, max_width):
     
     return "\n".join(lines)
 
-# Función principal para generar el comprobante de pago
 async def generar_comprobante(nombre: str, monto: str):
     imagen = Image.open(TEMPLATE_PATH)
     draw = ImageDraw.Draw(imagen)
@@ -83,7 +81,6 @@ async def generar_comprobante(nombre: str, monto: str):
     fecha_hora = obtener_fecha_hora()
     referencia = ajustar_texto_a_ancho(referencia, font, MAX_WIDTH)
 
-    # Ajustar la posición de texto en la imagen
     nombre_bbox = font.getbbox(nombre_formateado)
     nombre_width = nombre_bbox[1] - nombre_bbox[0]
     nombre_x = 900 - nombre_width
@@ -106,7 +103,6 @@ async def generar_comprobante(nombre: str, monto: str):
 
     return output_image_path
 
-# Comando del bot para generar el comprobante
 async def generar_comprobante_cmd(update: Update, context):
     if len(context.args) != 3:
         await update.message.reply_text("Por favor, ingrese el nombre, el monto y el número Nequi. Ejemplo: /comprobante Juan 100000 123456789")
@@ -126,7 +122,6 @@ async def generar_comprobante_cmd(update: Update, context):
 
     os.remove(output_image_path)
 
-# Comando de inicio
 async def start(update: Update, context):
     welcome_message = (
         "¡Hola! Soy un bot que te permite generar comprobantes de pago falsos.\n"
@@ -135,14 +130,13 @@ async def start(update: Update, context):
     )
     await update.message.reply_text(welcome_message)
 
-# Función principal del bot
 def main():
     application = Application.builder().token("7635357641:AAHNCSDMj50EcG3LJs3eCfxnMzccvAGHhlE").build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("comprobante", generar_comprobante_cmd))
 
-    # Activar Webhook
+    # Activamos el webhook
     port = int(os.environ.get('PORT', 5000))  # Puerto asignado por el entorno
     application.run_webhook(
         listen="0.0.0.0",
@@ -151,9 +145,8 @@ def main():
         webhook_url="https://deploy-bot-xts0.onrender.com",  # Reemplaza con tu URL de webhook
     )
 
-    # Iniciar servidor Flask para manejar las peticiones
+    # Iniciar servidor Flask
     app.run(host="0.0.0.0", port=5000)
 
-# Iniciar el bot y el servidor Flask
 if __name__ == "__main__":
     main()
